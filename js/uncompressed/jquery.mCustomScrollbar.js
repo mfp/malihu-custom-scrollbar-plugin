@@ -806,6 +806,17 @@ along with this program.  If not, see http://www.gnu.org/licenses/lgpl.html.
 			$this.removeClass("mCustomScrollbar _mCS_"+$this.data("mCustomScrollbarIndex")).addClass("mCS_destroyed").children().children(".mCSB_container").unwrap().children().unwrap().siblings(".mCSB_scrollTools").remove();
 			$(document).unbind("mousemove."+$this.data("mCustomScrollbarIndex")+" mouseup."+$this.data("mCustomScrollbarIndex")+" MSPointerMove."+$this.data("mCustomScrollbarIndex")+" MSPointerUp."+$this.data("mCustomScrollbarIndex"));
 			$(window).unbind("resize."+$this.data("mCustomScrollbarIndex"));
+			if($this.data('mCSB_onContentResize')) {
+				clearTimeout($this.data("mCSB_onContentResize"));
+				$this.data('mCSB_onContentResize', null);
+			}
+		},
+		stopOnContentResize:function() {
+			var $this=$(this);
+			if($this.data('mCSB_onContentResize')) {
+				clearTimeout($this.data("mCSB_onContentResize"));
+				$this.data('mCSB_onContentResize', null);
+			}
 		}
 	},
 	functions={
