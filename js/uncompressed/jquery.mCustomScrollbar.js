@@ -224,6 +224,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/lgpl.html.
 							mCSB_containerOldSize=mCSB_containerNewSize;
 						}
 					},300);
+                                        $this.data("mCSB_onContentResize", mCSB_onContentResize);
 				}
 			});
 		},
