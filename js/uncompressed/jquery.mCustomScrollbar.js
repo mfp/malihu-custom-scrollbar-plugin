@@ -622,6 +622,16 @@ and dependencies (minified).
 			},
 			/* ---------------------------------------- */
 			
+			/*
+			plugin keypress method
+			relays keypress (PgUp, PgDn, End, Home) to scrollbar
+			----------------------------------------
+			usage: $(selector).mCustomScrollbar("keypress", 33); // PgUp
+			*/
+			keypress:function(code){
+				functions._keypress.call(this, code);
+			},
+			/* ---------------------------------------- */
 			
 			
 			/*
@@ -1440,6 +1450,30 @@ and dependencies (minified).
 			},
 			/* -------------------- */
 			
+			_keypress:function(code){
+				var $this=$(this),d=$this.data(pluginPfx),o=d.opt,seq=d.sequential,
+					mCSB_container=$("#mCSB_"+d.idx+"_container"),
+					wrapper=mCSB_container.parent();
+				if(code===33 || code===34){
+					/* PgUp (33), PgDn (34) */
+					functions._stop($this);
+					var keyboardDir=code===34 ? -1 : 1;
+					if(o.axis==="x" || (o.axis==="yx" && d.overflowed[1] && !d.overflowed[0])){
+						var dir="x",to=Math.abs(mCSB_container[0].offsetLeft)-(keyboardDir*(wrapper.width()*0.9));
+					}else{
+						var dir="y",to=Math.abs(mCSB_container[0].offsetTop)-(keyboardDir*(wrapper.height()*0.9));
+					}
+					functions._scrollTo($this,to.toString(),{dir:dir,scrollEasing:"mcsEaseInOut"});
+				}else if(code===35 || code===36){
+					/* End (35), Home (36) */
+					if(o.axis==="x" || (o.axis==="yx" && d.overflowed[1] && !d.overflowed[0])){
+						var dir="x",to=code===35 ? Math.abs(wrapper.width()-mCSB_container.outerWidth(false)) : 0;
+					}else{
+						var dir="y",to=code===35 ? Math.abs(wrapper.height()-mCSB_container.outerHeight(false)) : 0;
+					}
+					functions._scrollTo($this,to.toString(),{dir:dir,scrollEasing:"mcsEaseInOut"});
+				}
+			},
 			
 			/* 
 			KEYBOARD EVENTS
